@@ -7,6 +7,7 @@
     <script src="bower_components/underscore/underscore.js"></script>
     <script src="bower_components/backbone/backbone.js"></script>
 
+    <script src="env/config.js"></script>
     <script src="data/data.js"></script>
 
     <script src="models/SongModel.js"></script>
@@ -23,15 +24,34 @@
 
     <script>
       $(function() {
+       
+        $.ajax({ 
+          // This is the url you should use to communicate with the parse API server. 
+          url: 'http://parse.sfs.hackreactor.com/mytunes/classes/songs',
+          type: 'GET',
+          contentType: 'application/json', 
+          success: function (data) {
+            _.extend(songData, data.results); 
+            console.log('songdata:', songData); }, 
+          error: function (data) { 
+            // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error 
+            console.error('chatterbox:Failed to recieve message', data); 
+          
+          } 
+      });
+       
         // set up model objects
-        var library = new Songs(songData);
-        var app = new AppModel({library: library});
+        setTimeout(function() {
+          var library = new Songs(songData);
+          var app = new AppModel({library: library});
 
-        // build a view for the top level of the whole app
-        var appView = new AppView({model: app});
+          // build a view for the top level of the whole app
+          var appView = new AppView({model: app});
 
-        // put the view onto the screen
-        $('body').append(appView.render());
+          // put the view onto the screen
+          $('body').append(appView.render());
+          
+        }, 100);
       });
     </script>
   </body>
