@@ -8,7 +8,7 @@ var SongQueueView = Backbone.View.extend({
   },
 
   render: function() {
-    this.$el.empty();
+    // this.$el.empty();
     this.collection.forEach(this.renderSongQueue, this);
     // return this.$el;
   },
@@ -18,5 +18,4 @@ var SongQueueView = Backbone.View.extend({
     this.$el.append(songQueueEnteryView.render());
   }
 
-  
 });
